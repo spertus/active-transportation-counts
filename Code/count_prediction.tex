@@ -86,6 +86,7 @@
                                 % normalem makes italics be italics, not underlines
     \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
     \usepackage{mathrsfs}
+    \usepackage{pdfpages}
     
 
     
@@ -525,6 +526,9 @@ end, we first outline how to design a statistically representative
 network of count stations, and then explore a method for using CCS and
 SCS data to estimate AADTs where there is no CCS (and possibly no SCS
 either).
+An overview of our recommended workflow is mapped to the contents of this notebook in the flowchart on the next page. (Two additional flowcharts illustrating specific, hypothetical workflows can be found later in this chapter.)
+
+\includepdf[pages = 1]{../Output/Flowchart_overview.pdf}
 
     \subsection{Previous work on AADT}\label{previous-work-on-aadt}
 
@@ -1345,6 +1349,12 @@ outside the scope of this document (but see, e.g.,
 \href{https://link.springer.com/book/9780387406206?utm_medium=referral&utm_source=google_books&utm_campaign=3_pier05_buy_print&utm_content=en_08082017}{Sarndal
 et al (1992)}).
 
+
+The workflow for estimating A-AADT using CCS stations is illustrated by the flowchart on the next page. 
+We emphasize that it is merely an example and the specific details we have chosen for illustration should not be taken as recommendations.
+
+\includepdf[pages = 1]{../Output/Flowchart_example_1.pdf}
+
     \subsection{Estimating AADT at an SCS station using expansion
 factors}\label{estimating-aadt-at-an-scs-station-using-expansion-factors}
 
@@ -1579,6 +1589,12 @@ covariate). This approach is called \(K\)-nearest neighbors. The number
 stratum. To choose the appropriate number of neighbors, a risk estimate
 \(\hat{R}\) could be made for each of the \(n_c\) possibilities, and we
 could select \(K^*\) with the smallest \(\hat{R}\).
+
+
+The workflow for estimating AADT at SCS stations is illustrated by the example workflow on the next page. We emphasize that it is merely an example and the specific details chosen for illustration should not be taken as recommendations.
+
+\includepdf[pages = 1]{../Output/Flowchart_example_2.pdf}
+
 
     \subsection{\texorpdfstring{Estimating AADT at the point \(r\) when
 there is no station at
@@ -1827,7 +1843,7 @@ of more sophisticated estimation methods.
     \section{Software}\label{software}
 
 The following section provides software to accomplish a variety of
-tasks:
+tasks including:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1847,6 +1863,13 @@ tasks:
   Estimate AADT at a point where there is no station by using the A-AADT
   estimate or poststratification
 \end{enumerate}
+
+The functions are generic and in some cases can be applied as they are. 
+However, the software will need to be edited by Caltrans: the workflow here is merely illustrative and not intended for immediate use. 
+Inputs to functions and other aspects of the software workflow are sensitive to the context in which they will be used by Caltrans and need to be adapted accordingly. 
+Adaptations of the code below might involve the agency's goals and error tolerances, the proper format of input and output data to integrate with agency workflows, writing a simpler user interface for use by workers unfamiliar with python code, and/or adding specific historical data that the agency could use inform sample sizes and other choices. 
+In particular, the agency could write additional loss functions to fit with their goals, they might adapt the functions used to form factor groups in order implement and/or evaluate their prefered method, they might change data input and output formats to integrate with existing workflows, they might reorder sections of the software to simplify data input, or define wrapper functions or loops to iterate over more complex data structures (e.g. a network with multiple strata).  
+
 
 We first load in necessary Python packages and define necessary
 functions. We then demonstrate each task in order. Except for the first,
